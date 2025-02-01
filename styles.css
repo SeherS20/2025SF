@@ -1,0 +1,148 @@
+/* General Styles */
+body {
+  font-family:'Courier New', Courier, monospace;
+  background-color: #efe8dd;
+  margin: 0;
+  padding: 0;
+}
+
+h2, h3 {
+  color: #655d51;
+}
+
+h4 {
+  color: #857a6a;
+}
+
+button {
+  background-color: #857a6a;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+button:hover {
+  background-color: #655d51;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #5c5149;
+  height: 100%;
+  padding-top: 20px;
+  transition: 0.3s ease;
+}
+
+.sidebar a {
+  display: block;
+  padding: 10px 20px;
+  text-decoration: none;
+  color: white;
+  font-size: 18px;
+}
+
+.sidebar a:hover {
+  background-color: #bbb;
+  color: black;
+}
+
+.sidebar a .hover-text {
+  visibility: hidden;
+}
+
+.sidebar a:hover .hover-text {
+  visibility: visible;
+}
+
+#remove{
+  background-color: #b48378;
+}
+/* Main Content */
+.main-content {
+  margin-left: 250px; /* This ensures the content is pushed to the right of the sidebar */
+  padding: 20px;
+  overflow: hidden; /* Prevents content overflow from breaking layout */
+}
+
+.dashboard {
+  display: flex;
+  gap: 30px;
+}
+
+.expiring-products, .stats {
+  flex: 1;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+.expiring-products ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.stats canvas {
+  width: 100%;
+  height: 300px;
+}
+
+/* Add New Item Page */
+#new-item {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+#new-item input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+#new-item .upload-image, .expiry-date {
+  display: flex;
+  gap: 20px;
+}
+
+.fruit-veggie-section {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.fruit-veggie-section input {
+  width: 200px;
+}
+
+/* Inventory Page */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+th {
+  background-color: #857a6a;
+  color: white;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+td img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+}

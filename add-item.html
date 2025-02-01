@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add New Item</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="sidebar">
+    <a href="index.html">📊 Dashboard</a>
+    <a href="add-item.html">➕ Add New Item</a>
+    <a href="inventory.html">📦 Inventory</a>
+    <a href="how-to-use.html">❓ How to Use</a>
+  </div>
+
+<div class="main-content">
+    
+  <section id="scanner">
+    <h2>Scan Product</h2>
+    <p> Scan the barcode using the barcode scanner provided. <br>
+      If you don't have a barcode scanner, you can manually enter the barcode number.</p>
+     <h4>The item you scan will be displayed in the Product info section, <br>there you can add an expiry date and image if you'd like. </h4> 
+    <label for="barcode">Barcode:</label>
+     <input type="text" id="barcode" onfocus="this.value=''" placeholder="Scan or enter barcode">
+     <button onclick="fetchProduct()">Fetch Product</button>
+     <p id="pleasewait">  </p>
+  </section>
+  
+
+  <section id="productInfo">
+    <h2>Product Info</h2>
+    <div id="productDetails"></div>
+    <label for="expiryDate">Expiry Date:</label>
+    <input type="date" id="expiryDate">
+    <br><br>
+    <label for="productImage">Upload Product Image:</label>
+    <input type="file" id="productImage" accept="image/*">
+    <br><br>
+    <button onclick="addToInventory()">Add to Inventory</button>
+  </section>
+
+</div>
+<script></script>
+  <script src="script.js"> </script>
+  
+</body>
+</html>

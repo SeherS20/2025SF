@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventory</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="sidebar">
+    <a href="index.html">📊 Dashboard</a>
+    <a href="add-item.html">➕ Add New Item</a>
+    <a href="inventory.html">📦 Inventory</a>
+    <a href="how-to-use.html">❓ How to Use</a>
+  </div>
+  <div class="main-content">
+    <section id="expiring">
+      <h2>Expiring Soon</h2>
+      <button onclick="viewExpiringSoon()">View Expiring Products</button>
+      <ul id="expiringList"></ul>
+    </section>
+
+    <section id="inventory">
+      <h2>Inventory</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Barcode</th>
+            <th>Product Name</th>
+            <th>Expiry Date</th>
+            <th>Image</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="inventoryTable"></tbody>
+      </table>
+    </section>
+    <button id="findRecipesButton">Find Recipes with Selected Items</button>
+    <div id="recipes"></div>
+       </section>
+<br><br>
+  <br>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<body>
+    <div id="output"></div>
+    <a href="" id="sourceLink"></a>
+    <input type="text" id="search" placeholder="Search"><button onclick="getrecipe(document.getElementById('search').value)">Search</button>
+<script src="script.js"></script>
+  <script>
+  </script>
+</body>
+</html>
