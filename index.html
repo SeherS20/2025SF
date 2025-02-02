@@ -7,8 +7,9 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  
   <div class="sidebar">
-    <a href="index.html">📊 Dashboard</a>
+    <a href="index.html" class="active">📊 Dashboard</a>
     <a href="add-item.html">➕ Add New Item</a>
     <a href="inventory.html">📦 Inventory</a>
     <a href="how-to-use.html">❓ How to Use</a>
@@ -17,13 +18,16 @@
   <div class="main-content">
     <div class="dashboard">
       <div class="expiring-products">
+
         <h2>Expiring Soon 🍎🥕</h2>
-        <ul id="expiringList"></ul>
-        <a href="inventory.html">Go to Inventory</a>
+        <ul id="expiringList2"></ul>
+        <button id="goto" href="inventory.html">Go to Inventory</button>
       </div>
-      <div class="stats">
-        <h2>Item Statistics</h2>
+      <div class="stats" >
+        <h2>Inventory Stats</h2>
+        <div class="chart-container">
         <canvas id="statsPieChart"></canvas>
+        </div>
       </div>
     </div>
   </div>

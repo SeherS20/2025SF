@@ -1,21 +1,41 @@
 /* General Styles */
+/* THEME COLOURS = #caf0a2, #92CCAE, #B2DDF7, #2a3285, #0a2463*/
 body {
-  font-family:'Courier New', Courier, monospace;
-  background-color: #efe8dd;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  background-color: #c3daff;
   margin: 0;
   padding: 0;
 }
 
 h2, h3 {
-  color: #655d51;
+  color: #0a2463;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+li {
+  list-style-type: none;
+  color: #0a2463;
+  font-weight: bold;
+}
+
+#goto {
+  background-color: #5585b0;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+#goto:hover {
+  background-color: #2a3285;
 }
 
 h4 {
-  color: #857a6a;
+  color: #2a3285;
 }
 
 button {
-  background-color: #857a6a;
+  background-color: #404e6b;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -25,51 +45,70 @@ button {
 }
 
 button:hover {
-  background-color: #655d51;
+  background-color: #2a3285;
 }
 
 /* Sidebar */
+
 .sidebar {
-  width: 250px;
+  margin: 0;
+  padding: 0;
+  width: 200px;
+  background-color: #1b2246;
   position: fixed;
-  top: 0;
-  left: 0;
-  background-color: #5c5149;
   height: 100%;
-  padding-top: 20px;
-  transition: 0.3s ease;
+  overflow: auto;
 }
 
 .sidebar a {
   display: block;
-  padding: 10px 20px;
+  color: rgb(217, 220, 243);
+  padding: 16px;
   text-decoration: none;
+}
+ 
+.sidebar a.active {
+  background-color: #768fc1;
   color: white;
-  font-size: 18px;
 }
 
-.sidebar a:hover {
-  background-color: #bbb;
-  color: black;
+.sidebar a:hover:not(.active) {
+  background-color: #6a7185;
+  color: white;
 }
 
-.sidebar a .hover-text {
-  visibility: hidden;
+.main-content {
+  margin-left: 200px;
+  transition: margin-left 0.5s;
+  padding: 1px 16px;
+  height: 1000px;
 }
 
-.sidebar a:hover .hover-text {
-  visibility: visible;
+@media screen and (max-width: 700px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+  .main-content{
+    margin-left: 0;
+  }
+  .sidebar a {float: left;}
+  div.content {margin-left: 0;}
+}
+
+@media screen and (max-width: 400px) {
+  .sidebar a {
+    text-align: center;
+    float: none;
+  }
+ 
 }
 
 #remove{
-  background-color: #b48378;
+  background-color: #7888b4;
 }
-/* Main Content */
-.main-content {
-  margin-left: 250px; /* This ensures the content is pushed to the right of the sidebar */
-  padding: 20px;
-  overflow: hidden; /* Prevents content overflow from breaking layout */
-}
+
 
 .dashboard {
   display: flex;
@@ -79,7 +118,7 @@ button:hover {
 .expiring-products, .stats {
   flex: 1;
   padding: 20px;
-  background-color: #fff;
+  background-color: #ffffff;
   border-radius: 8px;
 }
 
@@ -103,7 +142,7 @@ button:hover {
 #new-item input {
   padding: 10px;
   border-radius: 8px;
-  border: 1px solid #ccc;
+  border: 1px solid #cccccc;
 }
 
 #new-item .upload-image, .expiry-date {
@@ -129,11 +168,11 @@ table {
 
 th, td {
   padding: 10px;
-  border: 1px solid #ddd;
+  border: 1px solid #dddddd;
 }
 
 th {
-  background-color: #857a6a;
+  background-color: #434e6c;
   color: white;
 }
 
@@ -146,3 +185,15 @@ td img {
   height: 50px;
   object-fit: cover;
 }
+
+#statsPieChart {
+  width: 100%;
+  height: auto;
+}
+
+.chart-container {
+  width: 100%;
+  height: 500px;
+  position: relative;
+}
+

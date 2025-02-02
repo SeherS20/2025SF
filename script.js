@@ -1,6 +1,37 @@
 
 let inventory = JSON.parse(localStorage.getItem("inventory")) || [];
-console.log("Javascript started successfully 🌈🌈🌈");
+const ctx = document.getElementById('statsPieChart')?.getContext('2d');
+if (ctx) {
+  const pieChart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+      labels: [ 'Usable', 'Expired' ], 
+      datasets: [{
+        backgroundColor: ['#2a3285', '#B2DDF7'],
+        data: [0, 0, 0], 
+      }],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false
+    }
+    
+  });
+
+  function updatePieChart() {
+    let inventory = JSON.parse(localStorage.getItem("inventory")) || [];
+    let expired = inventory.filter(item => new Date(item.expiryDate) < new Date()).length;
+    let bought = (inventory.length) - expired;
+    
+    pieChart.data.datasets[0].data = [bought, expired];
+    pieChart.update();
+  }
+
+  updatePieChart(); // Call function to update chart on load
+  updateExpiry(); // Call function to update expiry list on load
+}
+
+console.log("JavaScript started successfully 🌈🌈🌈");
 
 // Initialize inventory from localStorage
 document.addEventListener("DOMContentLoaded", initializeInventory);
@@ -20,12 +51,13 @@ function renderInventory() {
   inventory.forEach((item, index) => {
     inventoryTable.innerHTML += `
       <tr>
-        <td>${item.barcode} <input type="checkbox" class="select-item" value="${item.productName}"></td>
+        <td>${item.barcode} <input type="checkbox" class="select-item" value="${item.productName}">
+        </td>
         <td>${item.productName}</td>
         <td>${item.expiryDate || "No Expiry Info"}</td>
         <td><img src="${item.image || ""}" alt="Product Image" width="50" height="50"></td>
         <td>
-          <button onclick="deleteItem(${index})" id="remove" >Remove 🗑️</button>
+          <button onclick="deleteItem(${index})" id="remove" >Used 🍴</button>
           <br><br>
           <button onclick="findRecipe('${item.productName}')">Find Recipe</button>
         </td>
@@ -159,6 +191,7 @@ function addToInventory() {
   const expiryDate = document.getElementById("expiryDate").value;
   const productImageInput = document.getElementById("productImage");
 
+
   if (!barcode || !productName) return alert("Please fetch product details before adding.");
   if (!expiryDate) return alert("Please enter an expiry date.");
 
@@ -167,9 +200,11 @@ function addToInventory() {
     inventory.push({ barcode, productName, expiryDate, image: reader.result || "" });
     localStorage.setItem("inventory", JSON.stringify(inventory));
     renderInventory();
-    alert("Product added successfully!");
+    updatePieChart();
+    updateExpiry();
   };
 
+  alert("Product added successfully!");
   if (productImageInput.files[0]) {
     reader.readAsDataURL(productImageInput.files[0]);
   } else {
@@ -177,6 +212,43 @@ function addToInventory() {
     localStorage.setItem("inventory", JSON.stringify(inventory));
     renderInventory();
     alert("Product added successfully!");
+  }
+}
+
+function updateExpiry() {
+  const expiringList2 = document.getElementById("expiringList2");
+  expiringList2.innerHTML = "";
+  const today = new Date();
+
+  const categorizedProducts = inventory.reduce(
+    (categories, item) => {
+      const expiryDate = new Date(item.expiryDate);
+      if (expiryDate) {
+        const daysDifference = (expiryDate - today) / (1000 * 60 * 60 * 24);
+        if (daysDifference > 0 && daysDifference <= 7) {
+          categories.expiring.push({ name: item.productName, daysLeft: Math.ceil(daysDifference) });
+        } else if (daysDifference < 0) {
+          categories.expired.push({ name: item.productName, daysExpired: Math.abs(Math.ceil(daysDifference)) });
+        }
+      }
+      return categories;
+    },
+    { expiring: [], expired: [] }
+  );
+
+  if (categorizedProducts.expiring.length > 0) {
+    categorizedProducts.expiring.forEach(item => {
+      expiringList2.innerHTML += `<li>${item.name} - Expiring in ${item.daysLeft} day(s)!!</li> <br>`;
+    });
+  } else {
+    expiringList2.innerHTML += "<li>No products nearing expiry.</li>";
+  }
+
+  if (categorizedProducts.expired.length > 0) {
+    expiringList2.innerHTML += "<h2>Expired Products:</h2>";
+    categorizedProducts.expired.forEach(item => {
+      expiringList2.innerHTML += `<li>${item.name} - Expired ${item.daysExpired} day(s) ago</li><br>`;
+    });
   }
 }
 
@@ -216,14 +288,37 @@ function viewExpiringSoon() {
     });
   }
 }
-
 function deleteItem(index) {
-  if (confirm(`Remove "${inventory[index].productName}" from inventory?`)) {
+  const item = inventory[index];
+  
+  // Confirm removal and mark the item as used
+  if (confirm(`Remove "${item.productName}" from inventory? Only click ok if you have used the item.`)) {
+    // Mark the item as used
+    inventory[index].used = true;
+    
+    // Remove the item from the inventory
     inventory.splice(index, 1);
+    
+    // Update localStorage
     localStorage.setItem("inventory", JSON.stringify(inventory));
+    
+    // Re-render inventory and update pie chart
     renderInventory();
-    alert("Item removed.");
+    updatePieChart();
+    
+    alert("Item used successfully!");
   }
 }
 
 document.getElementById("findRecipesButton").addEventListener("click", findMultipleRecipes);
+
+
+function openNav() {
+  document.getElementById("mySidebar").style.width = "250px";
+  document.getElementById("main").style.marginLeft = "250px";
+}
+
+function closeNav() {
+  document.getElementById("mySidebar").style.width = "0";
+  document.getElementById("main").style.marginLeft= "0";
+}
