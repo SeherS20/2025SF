@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Water Flow Monitor</title>
+</head>
+<body>
+ 
+    <div class="sidebar">
+        <a href="index.html">📊 Dashboard</a>
+        <a href="add-item.html">➕ Add New Item</a>
+        <a href="inventory.html">📦 Inventory</a>
+        <a href="how-to-use.html">❓ How to Use</a>
+        <a href="water_usage.html" class="active"> 🚿 Water Usage</a>
+      </div>
+    
+    <div class="main-content">
+    <h2>Water Flow Monitor</h2>
+    <div class="data-box">
+        <p><strong>Flow Rate:</strong> <span id="flowRate">0</span> L/min</p>
+        <p><strong>Total Water Used:</strong> <span id="totalWater">0</span> mL</p>
+    </div>
+</div>
+    <script>
+        async function fetchWaterData() {
+            try {
+                const response = await fetch("http://192.168.0.117/flowdata");
+                const data = await response.json();
+                
+                document.getElementById("flowRate").textContent = data.flowRate.toFixed(2);
+                document.getElementById("totalWater").textContent = data.totalMilliLitres;
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        }
+
+        setInterval(fetchWaterData, 1000); // Update every 1 second
+    </script>
+</body>
+
+</html>
