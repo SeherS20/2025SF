@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -23,19 +22,17 @@
         <p><strong>Total Water Used:</strong> <span id="totalWater">0</span> mL</p>
     </div>
 </div>
-    <script>
-        async function fetchWaterData() {
-            try {
-                const response = await fetch("http://192.168.0.117/flowdata");
-                const data = await response.json();
-                
-                document.getElementById("flowRate").textContent = data.flowRate.toFixed(2);
-                document.getElementById("totalWater").textContent = data.totalMilliLitres;
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        }
-
+    <script>async function fetchWaterData() {
+        try {
+            const response = await fetch("https://834a-2001-1970-47a4-b700-00-6d9c.ngrok-free.app "); 
+            const data = await response.json();
+            
+            document.getElementById("flowRate").textContent = data.flowRate.toFixed(2);
+            document.getElementById("totalWater").textContent = data.totalMilliLitres;
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }    
+    }
         setInterval(fetchWaterData, 1000); // Update every 1 second
     </script>
 </body>

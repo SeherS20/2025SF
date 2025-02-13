@@ -196,4 +196,30 @@ td img {
   height: 500px;
   position: relative;
 }
+#fun_img{
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
+
+/* Expiry Color Coding */
+.expired {
+  background-color: #ffcccc !important; /* Light Red */
+}
+
+.near-expiry {
+  background-color: #fff3cd !important; /* Light Yellow */
+}
+
+.fresh {
+  background-color: #d4edda !important; /* Light Green */
+}
+
+.light {
+ opacity: 0.8;
+}
+
+.dark {
+ opacity: 1;
+}
 
