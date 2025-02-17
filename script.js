@@ -319,6 +319,7 @@ function viewExpiringSoon() {
     expiringList.innerHTML += "<h3>Expired Products:</h3>";
     categorizedProducts.expired.forEach(item => {
       expiringList.innerHTML += `<li>${item.name} - Expired ${item.daysExpired} day(s) ago</li><br>`;
+      alert("Expired Products: " + item.name + " - Expired " + item.daysExpired + " day(s) ago");
     });
   }
 }
