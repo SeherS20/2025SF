@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,33 +9,148 @@
 <body>
  
     <div class="sidebar">
-        <a href="index.html">📊 Dashboard</a>
+        <a href="index.html">📊 PantryDashboard</a>
         <a href="add-item.html">➕ Add New Item</a>
         <a href="inventory.html">📦 Inventory</a>
-        <a href="how-to-use.html">❓ How to Use</a>
         <a href="water_usage.html" class="active"> 🚿 Water Usage</a>
-      </div>
+        <a href="how-to-use.html">❓ How to Use</a>
+    </div>
     
     <div class="main-content">
-    <h2>Water Flow Monitor</h2>
-    <div class="data-box">
-    </div>
-</div>
-<script>
-    async function fetchData() {
-        let response = await fetch("data.json");
-        let data = await response.json();
-        
-        document.getElementById("waterUsage").innerText = "Water Usage: " + data.water_usage + "L";
-        document.getElementById("timestamp").innerText = "Last Update: " + data.timestamp;
-    }
-    
-    setInterval(fetchData, 5000); // Refresh every 5 seconds
-    </script>
-    
-    <h2 id="waterUsage">Water Usage: Loading...</h2>
-    <h3 id="timestamp">Last Update: Loading...</h3>
-    
-</body>
+        <h2>Water Flow Monitor</h2>
 
+        <div class="data-box">
+            <h2 id="waterUsage">Water Usage: Loading...</h2>
+            <h3 id="timestamp">Last Update: Loading...</h3>
+        </div>
+        <div class="goal-box">
+            <label for="goalInput">Set Water Goal (Litres):</label>
+            <input type="number" id="goalInput" min="1" placeholder="Enter goal">
+            <button id="setGoalBtn">Set Goal</button>
+        </div>
+
+        <div class="progress-container">
+            <p>Goal Progress:</p>
+            <div class="progress-bar">
+                <div id="progress-fill"></div>
+            </div>
+            <p id="progress-text">0% of goal reached</p>
+        </div>
+
+        <button id="resetBtn">Reset Water Usage</button>
+
+        <h3>Water Usage Over Time</h3>
+        <canvas id="usageChart"></canvas>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+// Fetch flow data from the ESP32
+async function fetchWaterData() {
+  try {
+      const response = await fetch("http://192.168.0.144/flowdata"); 
+      const data = await response.json();
+
+      document.getElementById("waterUsage").textContent = `Flow Rate: ${data.flowRate.toFixed(2)} L/min`;
+      document.getElementById("timestamp").textContent = `Total Water Used: ${(data.totalMilliLitres / 1000).toFixed(2)} L`;
+
+      totalWaterUsed = data.totalMilliLitres / 1000; // Convert to liters
+      updateProgressBar();
+  } catch (error) {
+      console.error("Error fetching data:", error);
+  }
+}
+
+// Set Goal and Track Progress
+let goal = localStorage.getItem('waterGoal');
+let totalWaterUsed = 0; // Water usage in liters
+
+// Set goal if already saved
+if (goal) {
+    document.getElementById('goalInput').value = goal;
+    updateProgressBar();
+}
+
+// Update the progress bar based on the goal and current usage
+function updateProgressBar() {
+    if (!goal) return;
+
+    const percentage = (totalWaterUsed / goal) * 100;
+    document.getElementById('progress-fill').style.width = percentage + '%';
+    document.getElementById('progress-text').textContent = `${percentage.toFixed(2)}% of goal reached`;
+
+    // Color change when near or exceeded goal
+    if (percentage >= 100) {
+        document.getElementById('progress-fill').style.backgroundColor = '#e74c3c'; // Red if over goal
+    } else if (percentage >= 80) {
+        document.getElementById('progress-fill').style.backgroundColor = '#f39c12'; // Yellow if close
+    } else {
+        document.getElementById('progress-fill').style.backgroundColor = '#2ecc71'; // Green
+    }
+}
+
+// Handle goal setting
+document.getElementById('setGoalBtn').addEventListener('click', () => {
+    const newGoal = parseFloat(document.getElementById('goalInput').value);
+    if (newGoal > 0) {
+        goal = newGoal;
+        localStorage.setItem('waterGoal', goal);
+        updateProgressBar();
+    } else {
+        alert("Please enter a valid goal.");
+    }
+});
+
+document.getElementById('resetBtn').addEventListener('click', () => {
+    totalWaterUsed = 0;
+    localStorage.removeItem('waterGoal');
+    document.getElementById('goalInput').value = '';
+    updateProgressBar();
+    document.getElementById("waterUsage").textContent = 'Water Usage: 0 L';
+    document.getElementById("timestamp").textContent = 'Last Update: N/A';
+});
+
+setInterval(fetchWaterData, 1000);
+const ctx = document.getElementById('usageChart').getContext('2d');
+let dailyUsage = JSON.parse(localStorage.getItem('dailyUsage')) || [];
+
+const usageChart = new Chart(ctx, {
+    type: 'bar', 
+    data: {
+        labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'], 
+        datasets: [{
+            label: 'Water Usage (Liters)',
+            data: dailyUsage,
+            backgroundColor: 'rgba(0, 123, 255, 0.5)', 
+            borderColor: 'rgba(0, 123, 255, 1)', 
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true,
+            },
+        },
+    },
+});
+
+function updateChart() {
+    const currentDate = new Date().toLocaleDateString();
+    const dailyData = totalWaterUsed;
+    if (dailyUsage.length >= 7) {
+        dailyUsage.shift(); 
+    }
+    dailyUsage.push(dailyData);
+    localStorage.setItem('dailyUsage', JSON.stringify(dailyUsage));
+    usageChart.data.datasets[0].data = dailyUsage;
+    usageChart.update();
+}
+
+setInterval(updateChart, 86400000); // 24 hours in milliseconds
+
+</script>
+
+</body>
 </html>

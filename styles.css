@@ -223,3 +223,82 @@ td img {
  opacity: 1;
 }
 
+.data-box {
+  background-color: #ffffff;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.goal-box {
+  margin-bottom: 20px;
+}
+
+.goal-box input {
+  padding: 10px;
+  font-size: 16px;
+  width: 200px;
+  margin-right: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+.goal-box button {
+  padding: 10px 20px;
+  background-color: #2980b9;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.goal-box button:hover {
+  background-color: #3498db;
+}
+
+.progress-container {
+  margin: 20px 0;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 20px;
+  background-color: #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+#progress-fill {
+  height: 100%;
+  background-color: #2ecc71;
+  width: 0%;
+  transition: width 0.3s ease;
+}
+
+#progress-text {
+  margin-top: 5px;
+  font-weight: bold;
+}
+
+button#resetBtn {
+  padding: 10px 20px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+button#resetBtn:hover {
+  background-color: #c0392b;
+}
+
+canvas {
+  width: 100%;
+  max-width: 600px;
+  margin-top: 30px;
+}
+
+

@@ -268,7 +268,6 @@ function updateExpiry() {
     },
     { expiring: [], expired: [] }
   );
-  // Display expiring and expired products
 
   if (categorizedProducts.expiring.length > 0) {
     categorizedProducts.expiring.forEach(item => {
@@ -329,7 +328,6 @@ function deleteItem(index) {
   if (confirm(`Remove "${item.productName}" from inventory? Only click ok if you have used the item, Or the item isn't edible anymore.`)) {
     inventory[index].used = true;
     inventory.splice(index, 1);
-    // Update localStorage
     localStorage.setItem("inventory", JSON.stringify(inventory));
     
     renderInventory();
@@ -343,13 +341,11 @@ document.getElementById("findRecipesButton").addEventListener("click", findMulti
 
 
 function openNav() {
-  //  Open the sidebar
   document.getElementById("mySidebar").style.width = "250px";
   document.getElementById("main").style.marginLeft = "250px";
 }
 
 function closeNav() {
-  // Close the sidebar
   document.getElementById("mySidebar").style.width = "0";
   document.getElementById("main").style.marginLeft= "0";
 }
